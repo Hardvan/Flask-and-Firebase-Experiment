@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 import urllib3
 import os
 from dotenv import load_dotenv
@@ -30,7 +30,18 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    return "Hello, World!"
+    if request.method == 'POST':
+        name = request.form['name']
+
+        # ? Pushing data to firebase
+        db.child("todo").push(name)
+
+        # ? Getting data from firebase
+        todo = db.child("todo").get()
+
+        return render_template('index.html', t=todo.val().values())
+
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
