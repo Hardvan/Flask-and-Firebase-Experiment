@@ -1,3 +1,4 @@
+from flask import Flask, request, jsonify
 import urllib3
 import os
 from dotenv import load_dotenv
@@ -23,10 +24,14 @@ firebase = pyrebase.initialize_app(config)
 # ? Database
 db = firebase.database()
 
-# db.child("names").push({"name": "Hardvan"})
-# db.child("names").child("name").update({"name": "Hardvan2"})
-# users = db.child("names").child("name").get()
-# print(users.val())
+app = Flask(__name__)
 
-# db.child("names").child("name").remove()
-db.child("names").remove()
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+
+    return "Hello, World!"
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
